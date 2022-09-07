@@ -16,11 +16,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Roles
+Route::resource('roles', App\Http\Controllers\RolesController::class);
+
+// Permissions
+Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
+
+
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Auth::routes(['register' => false]);
+Auth::routes(['register' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -30,12 +37,6 @@ Route::prefix('profile')->name('profile.')->middleware('auth')->group(function()
     Route::post('/update', [HomeController::class, 'updateProfile'])->name('update');
     Route::post('/change-password', [HomeController::class, 'changePassword'])->name('change-password');
 });
-
-// Roles
-Route::resource('roles', App\Http\Controllers\RolesController::class);
-
-// Permissions
-Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
 
 // Users 
 Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
